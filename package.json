@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start-server": "lite-serverl"
+	  "start-server": "lite-server"
   },
   "author": "",
   "license": "ISC",
