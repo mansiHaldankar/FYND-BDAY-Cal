@@ -1,17 +1,15 @@
-var data = [
-  {
-    "name": "Tyrion Lannister",
-    "birthday": "12/02/1978"
-  }, {
-    "name": "Cersei Lannister",
-    "birthday": "11/30/1975"
-  }, {
-    "name": "Cersei PPP",
-    "birthday": "11/23/1975"
-  },{
-    "name": "Daenerys Targaryen",
-    "birthday": "11/24/1991"
-  }, {
+var data = 
+  [
+    {
+      "name": "Tyrion Lannister",
+      "birthday": "12/02/1978"
+    }, {
+      "name": "Cersei Lannister",
+      "birthday": "11/30/1975"
+    }, {
+      "name": "Daenerys Targaryen",
+      "birthday": "11/24/1991"
+    }, {
       "name": "Arya Stark",
       "birthday": "11/25/1996"
     }, {
@@ -57,71 +55,6 @@ var data = [
       "name": "Brienne of Tarth",
       "birthday": "11/27/1985"
     }, {
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },
-    {
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },
-    {
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
-      "name": "Margaery Tyrell",
-      "birthday": "12/02/1989"
-    },{
       "name": "Margaery Tyrell",
       "birthday": "12/02/1989"
     }, {
@@ -189,10 +122,11 @@ var updateData = function(){
     var newData = JSON.parse(document.getElementById("jsonDataTextArea").value);
     data = newData;
     var filteredDates = data.filter((year) => Number((year.birthday).split("/")[2]) === Number(selectedYear));
-    var resultArray = filteredDates.map(dateObj => {
+    var resultArray = filteredDates.map(function(dateObj){
         return { ...dateObj,  day: getDay(dateObj['birthday']), shortName: getShortNames(dateObj['name'])}
     });
-   
+    
+    //remove old DIVs
     var wrapperContainerChildren = document.querySelector(".wrapper-container").children;
     for (var iChild =0; iChild < wrapperContainerChildren.length; iChild++) {
       if(wrapperContainerChildren[iChild].querySelectorAll(".bdayData")[0].childElementCount) {
@@ -203,46 +137,50 @@ var updateData = function(){
         }
       }
     }
+    var metaData = {};
 
-    var dayObj = {};
-    for (var bday in resultArray){
-      var iDiv = document.createElement("div");
-      iDiv.className = "person-sec";
-      iDiv.id = "person-name" + bday;
-      document.getElementById(resultArray[bday].day).appendChild(iDiv);
-      var dayCounter = 0;
-      if(dayObj.hasOwnProperty(resultArray[bday].day)) {
-        dayObj[resultArray[bday].day] =  dayObj[resultArray[bday].day]  + 1 ;
-      } else {
-        dayObj[resultArray[bday].day] = ++dayCounter;
-      }
-      document.getElementById(iDiv.id).innerHTML = resultArray[bday].shortName;
+    for (var iKey in resultArray) {
+      if(!metaData[resultArray[iKey].day]) {
+          metaData[resultArray[iKey].day] = new Array();
+        }
+      metaData[resultArray[iKey].day].push(resultArray[iKey]);
     }
-    var maxDaysCount = findMaxLength(dayObj);
+    var counter = 0;
     var colorArray = [];
-    for(var iLen = 0; iLen < maxDaysCount; iLen++){
-        var color = getRandomColor();
-        colorArray.push(color);
+    for (var iCount in metaData){
+        counter = (metaData[iCount].length > counter) ? metaData[iCount].length : counter;
     }
-  
-    // var outerHeight = document.getElementsByClassName('bdayData').outerHeight;
-    // var outerWidth = document.getElementsByClassName('bdayData').outerWidth;
-
+    getRandomColor(counter, colorArray)
+    for (var bday in metaData){
+      var dayArray = metaData[bday];
+      //sorting date wise
+      dayArray.sort(function(a,b){
+        return new Date(a.birthday) - new Date(b.birthday);
+      });
+ 
+      for (var jBday in dayArray) {
+        var innerWidth = document.getElementById(dayArray[jBday].day).clientWidth;
+        var dayArrayLength = dayArray.length;
+        var childWidth = (innerWidth  / dayArrayLength);
+        var iDiv = document.createElement("div");
+        iDiv.className = "person-sec";
+        iDiv.id = "person-name-" + bday + "-" + jBday;
+        document.getElementById(dayArray[jBday].day).appendChild(iDiv);
+        document.getElementById(iDiv.id).innerHTML = dayArray[jBday].shortName;
+        document.getElementById(iDiv.id).style.width = childWidth + 'px';
+        document.getElementById(iDiv.id).style.height = childWidth + 'px';
+        document.getElementById(iDiv.id).style.backgroundColor = colorArray[jBday];
+      }
+    }
 }
-function findMaxLength(dayObj) {
-  var calculatedMaxLength = 0;
-  for (var iData in dayObj) {
-    calculatedMaxLength = (dayObj[iData]> calculatedMaxLength) ? dayObj[iData] : calculatedMaxLength;
-  }
-
-  return calculatedMaxLength;
-}
-
-function getRandomColor() {
+function getRandomColor(counter, colorArray) {
   var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
+  for(var iCounter = 0; iCounter < counter; iCounter++){
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    colorArray.push(color);
   }
-  return color;
+  return colorArray;
 }
