@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/custom.css">
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="dayBlock">
+                    <div class="sec-header">
+                        MON
+                    </div>
+                    <div id = "MON" class="bdayData"></div>
+                </div>
+                <div class="dayBlock">
+                    <div class="sec-header">
+                        TUE
+                    </div>
+                    <div id = "TUE" class="bdayData"></div>
+                </div>
+                <div class="dayBlock">
+                    <div class="sec-header">
+                        WED
+                    </div>
+                    <div id = "WED" class="bdayData"></div>
+                </div>
+                <div class="dayBlock">
+                    <div class="sec-header">
+                        THU
+                    </div>
+                    <div id = "THU" class="bdayData"></div>
+                </div>
+                <div class="dayBlock">
+                    <div class="sec-header">
+                        FRI
+                    </div>
+                    <div id = "FRI" class="bdayData"></div>
+                </div>
+                <div class="dayBlock">
+                    <div class="sec-header">
+                        SAT
+                    </div>
+                    <div id = "SAT" class="bdayData"></div>
+                </div>
+                <div class="dayBlock">
+                    <div class="sec-header">
+                        SUN
+                    </div>
+                    <div id = "SUN" class="bdayData"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <textarea class="form-control" id="jsonDataTextArea" rows="30"></textarea>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="year" class="customForm-label">Year</label>
+                        <input type="text" class="form-control form-control-lg" id="yearInput" placeholder="YYYY" maxlength="4">
+                    </div>
+                    <button type= "button" class="btn btn-primary btn-lg" onclick="appendBirthDayDiv()">UPDATE</button>
+                </div>
+            </div>
+        </div>  
+        <script src="JS/birthdayCard.js"></script>
+    </body>
+</html>
