@@ -123,7 +123,10 @@ var updateData = function(){
     data = newData;
     var filteredDates = data.filter((year) => Number((year.birthday).split("/")[2]) === Number(selectedYear));
     var resultArray = filteredDates.map(function(dateObj){
-        return { ...dateObj,  day: getDay(dateObj['birthday']), shortName: getShortNames(dateObj['name'])}
+        debugger;
+        //return { ...dateObj,  day: getDay(dateObj['birthday']), shortName: getShortNames(dateObj['name'])}
+        return Object.assign(dateObj, {day: getDay(dateObj['birthday'])}, {shortName: getShortNames(dateObj['name'])});
+        //return { ...dateObj,  day: getDay(dateObj['birthday']), shortName: getShortNames(dateObj['name'])}
     });
     
     //remove old DIVs

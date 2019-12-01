@@ -21,3 +21,7 @@
     color: #FFFAFA;
     vertical-align: middle;
 }
+.header-row h2{
+    margin: 0 auto;
+    text-decoration: underline;
+}
